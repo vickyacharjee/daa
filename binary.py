@@ -1,40 +1,42 @@
 import timeit
-import random
 import matplotlib.pyplot as plt
 
 # Input Array elements
 def Input(Array, n):
     # iterating till the range
-    for i in range(n):
-        ele = random.randrange(1, 50)
+    for i in range(0, n):
+        ele = int(input("Arr: "))
         # adding the element
         Array.append(ele)
 
-# Selection Sort
-def selectionSort(Array, size):
-    for ind in range(size):
-        min_index = ind
-        for j in range(ind + 1, size):
-            # select the minimum element in every iteration
-            if Array[j] < Array[min_index]:
-                min_index = j
-        # swapping the elements to sort the array
-        Array[ind], Array[min_index] = Array[min_index], Array[ind]
+# Binary Searching
+def binary_search(Array, key):
+    while len(Array) > 0:
+        mid = len(Array) // 2
+        if Array[mid] == key:
+            return True
+        elif Array[mid] < key:
+            Array = Array[:mid]
+        else:
+            Array = Array[mid + 1:]
+    return False
 
 # Main Block
 N = []
 CPU = []
 trail = int(input("Enter no. of trials: "))
+
 for t in range(trail):
     Array = []
     print("-----> TRIAL NO:", t + 1)
     n = int(input("Enter number of elements: "))
     Input(Array, n)
-    start = timeit.default_timer()
-    selectionSort(Array, n)
-    times = timeit.default_timer() - start
-    print("Sorted Array:")
     print(Array)
+    key = int(input("Enter key: "))
+    start = timeit.default_timer()
+    s = binary_search(Array, key)
+    print("Element Found =", s)
+    times = timeit.default_timer() - start
     N.append(n)
     CPU.append(round(float(times) * 1000000, 2))
 
@@ -49,7 +51,7 @@ plt.scatter(N, CPU, color="red", marker="*", s=50)
 plt.xlabel('Array Size - N')
 # naming the y axis
 plt.ylabel('CPU Processing Time')
-# giving a title to graph
-plt.title('Selection Sort Time efficiency')
+# giving a title to the graph
+plt.title('Binary Search Time efficiency')
 # function to show the plot
 plt.show()
